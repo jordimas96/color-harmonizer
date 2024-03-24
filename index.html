@@ -22,27 +22,50 @@
     <div class="mb-4 row no-gutters">
         <div class="col-12 col-md-3" style="min-height:0;"></div>
         <div class="col-12 col-md-6 range-container">
-            <input type="range" max="360" class="" oninput="changeHue(this.value); fillCode(this.value)">
+            <input type="range" id="range" max="360" class="" oninput="formChanged()">
         </div>
         <div class="col-12 col-md-3" style="min-height:0;"></div>
     </div>
 
+    <div class="mb-4 row no-gutters">
+        <div class="col-12 col-md-3" style="min-height:0;"></div>
+        <label class="col-12 col-md-6 checkbox-label">
+            <input type="checkbox" id="checkbox" oninput="formChanged()"> Max saturation
+        </label>
+        <div class="col-12 col-md-3" style="min-height:0;"></div>
+    </div>
+    
+    
+
     <div class="group1">
-        <div class="square div1">Div 1</div>
-        <div class="square div2">Div 2</div>
-        <div class="square div3">Div 3</div>
-        <div class="square div4">Div 4</div>
-        <div class="square div5">Div 5</div>
-        <div class="square div6">Div 6</div>
-        <div class="square div7">Div 7</div>
-        <div class="square div8">Div 8</div>
+        <div class="square div1">Cls 1</div>
+        <div class="square div2">Cls 2</div>
+        <div class="square div3">Cls 3</div>
+        <div class="square div4">Cls 4</div>
+        <div class="square div5">Cls 5</div>
+        <div class="square div6">Cls 6</div>
+        <div class="square div7">Cls 7</div>
+        <div class="square div8">Cls 8</div>
     </div>
     <div class="group1">
-        <div class="square" style="background-color: rgb(0, 100, 250);    color: rgb(245 222 179);">Div 1</div>
-        <div class="square" style="background-color: #56cf94;             color: rgb(60, 120, 0); ">Div 2</div>
-        <div class="square" style="background-color: hsl(311, 100%, 23%); color: hsl(311 100 90); ">Div 3</div>
-        <div class="square" style="background-color: hwb(43 74% 0%);      color: #0008;           ">Div 4</div>
-        <div class="square" style="background-color: azure;               color: hwb(0 42 58);    ">Div 5</div>
+        <div class="square" style="background-color: rgb(0, 100, 250);    color: rgb(245 222 179);">Inl 1</div>
+        <div class="square" style="background-color: #56cf94;             color: rgb(60, 120, 0); ">Inl 2</div>
+        <div class="square" style="background-color: hsl(311, 100%, 23%); color: hsl(311 100 90); ">Inl 3</div>
+        <div class="square" style="background-color: hwb(43 74% 0%);      color: #0008;           ">Inl 4</div>
+        <div class="square" style="background-color: azure;               color: hwb(0 42 58);    ">Inl 5</div>
+    </div>
+    <div class="group2">
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 0%);    color: white;">Gray 0</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 10%);    color: white;">Gray 1</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 20%);    color: white;">Gray 2</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 30%);    color: white;">Gray 3</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 40%);    color: white;">Gray 4</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 50%);    color: white;">Gray 5</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 60%);    color: white;">Gray 6</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 70%);    color: white;">Gray 7</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 80%);    color: gray;">Gray 8</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 90%);    color: gray;">Gray 9</div>
+        <div class="gray-square square" style="background-color: hsl(0, 0%, 100%);    color: gray;">Gray 10</div>
     </div>
 
 
@@ -55,8 +78,9 @@
 
 
 <pre id="codi-hidden">
-function changeHue(hue) {
-    document.querySelectorAll("body, body *").forEach((e) => {
+function changeHue(hue, maxSaturation = false) {
+    document.querySelectorAll("body, body *").forEach((e, i) => {
+
         let color = window.getComputedStyle(e).color;
         let back = window.getComputedStyle(e).backgroundColor;
         let bord = window.getComputedStyle(e).borderColor;
@@ -65,15 +89,33 @@ function changeHue(hue) {
         back = rgbaToHsla(back);
         bord = rgbaToHsla(bord);
 
+        if (!e.originalSat) {
+            e.originalSat = {
+                color: color.s,
+                back: back.s,
+                bord: bord.s,
+            };
+        }
+
         color.h = hue;
         back.h = hue;
         bord.h = hue;
+
+        if (maxSaturation) {
+            color.s = 100;
+            back.s = 100;
+            bord.s = 100;
+        } else {
+            color.s = e.originalSat.color
+            back.s = e.originalSat.back
+            bord.s = e.originalSat.bord
+        }
 
         e.style.color = `hsla(${color.h}, ${color.s}%, ${color.l}%, ${color.a})`;
         e.style.backgroundColor = `hsla(${back.h}, ${back.s}%, ${back.l}%, ${back.a})`;
         e.style.borderColor = `hsla(${bord.h}, ${bord.s}%, ${bord.l}%, ${bord.a})`;
         e.style.accentColor = `hsla(${hue}, 100%, 50%, 1)`;
-        
+
     });
 }
 
@@ -116,9 +158,7 @@ function rgbaToHsla(rgbaString) {
 
     let h = Math.round(hue * 360);
     let s = Math.round(saturation * 100);
-    // let s = 100;
     let l = Math.round(lightness * 100);
-        
 
     return { h, s, l, a };
 }
