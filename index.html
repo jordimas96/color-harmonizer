@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Harmonizer</title>
+
+
+    <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    
+    <h1 class="mt-3 mb-4 text-center">Color Harmonizer</h1>
+
+    <div class="mb-4 row no-gutters">
+        <div class="col-12 col-md-3" style="min-height:0;"></div>
+        <div class="col-12 col-md-6 range-container">
+            <input type="range" max="360" class="" oninput="changeHue(this.value); fillCode(this.value)">
+        </div>
+        <div class="col-12 col-md-3" style="min-height:0;"></div>
+    </div>
+
+    <div class="group1">
+        <div class="square div1">Div 1</div>
+        <div class="square div2">Div 2</div>
+        <div class="square div3">Div 3</div>
+        <div class="square div4">Div 4</div>
+        <div class="square div5">Div 5</div>
+        <div class="square div6">Div 6</div>
+        <div class="square div7">Div 7</div>
+        <div class="square div8">Div 8</div>
+    </div>
+    <div class="group1">
+        <div class="square" style="background-color: rgb(0, 100, 250);    color: rgb(245 222 179);">Div 1</div>
+        <div class="square" style="background-color: #56cf94;             color: rgb(60, 120, 0); ">Div 2</div>
+        <div class="square" style="background-color: hsl(311, 100%, 23%); color: hsl(311 100 90); ">Div 3</div>
+        <div class="square" style="background-color: hwb(43 74% 0%);      color: #0008;           ">Div 4</div>
+        <div class="square" style="background-color: azure;               color: hwb(0 42 58);    ">Div 5</div>
+    </div>
+
+
+    <div class="grup-codi mt-5">
+        <div class="pre-wrapper">
+            <button class="copy" onclick="copy()">Copy</button>
+            <pre class="p-3 codi" id="codi"></pre>
+        </div>
+    </div>
+
+
+<pre id="codi-hidden">
+function changeHue(hue) {
+    document.querySelectorAll("body, body *").forEach((e) => {
+        let color = window.getComputedStyle(e).color;
+        let back = window.getComputedStyle(e).backgroundColor;
+        let bord = window.getComputedStyle(e).borderColor;
+
+        color = rgbaToHsla(color);
+        back = rgbaToHsla(back);
+        bord = rgbaToHsla(bord);
+
+        color.h = hue;
+        back.h = hue;
+        bord.h = hue;
+
+        e.style.color = `hsla(${color.h}, ${color.s}%, ${color.l}%, ${color.a})`;
+        e.style.backgroundColor = `hsla(${back.h}, ${back.s}%, ${back.l}%, ${back.a})`;
+        e.style.borderColor = `hsla(${bord.h}, ${bord.s}%, ${bord.l}%, ${bord.a})`;
+        e.style.accentColor = `hsla(${hue}, 100%, 50%, 1)`;
+        
+    });
+}
+
+function rgbaToHsla(rgbaString) {
+    // Extract the RGBA values from the string //
+    const match = rgbaString.match(/\d+(\.\d+)?/g);
+    const r = parseInt(match[0]) / 255;
+    const g = parseInt(match[1]) / 255;
+    const b = parseInt(match[2]) / 255;
+    const a = parseFloat(match[3] == undefined ? 1 : match[3]);
+
+    // Find the maximum and minimum of the RGB components //
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+
+    // Calculate the brightness //
+    const lightness = (max + min) / 2;
+
+    let hue, saturation;
+
+    // If the components are equal, saturation is 0 //
+    if (max === min) {
+        hue = saturation = 0;
+    } else {
+        const delta = max - min;
+        saturation = lightness > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+
+        switch (max) {
+            case r:
+                hue = ((g - b) / delta + (g < b ? 6 : 0)) / 6;
+                break;
+            case g:
+                hue = ((b - r) / delta + 2) / 6;
+                break;
+            case b:
+                hue = ((r - g) / delta + 4) / 6;
+                break;
+        }
+    }
+
+    let h = Math.round(hue * 360);
+    let s = Math.round(saturation * 100);
+    // let s = 100;
+    let l = Math.round(lightness * 100);
+        
+
+    return { h, s, l, a };
+}
+</pre>
+
+</body>
+
+</html>
