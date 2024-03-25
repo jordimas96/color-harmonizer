@@ -107,7 +107,10 @@ function formChanged() {
 function fillCode(hue, maxSaturation) {
     let codi = document.getElementById("codi-hidden").innerHTML;
 
-    codi = `changeHue(${hue}, ${maxSaturation});\n\n${codi}`;
+    if (maxSaturation)
+        codi = `changeHue(${hue}, true);\n\n${codi}`;
+    else
+        codi = `changeHue(${hue});\n\n${codi}`;
 
 
     document.getElementById("codi").innerHTML = codi;
