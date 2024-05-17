@@ -3,37 +3,58 @@ function changeHue(hue, maxSaturation = false) {
 
         let color = window.getComputedStyle(e).color;
         let back = window.getComputedStyle(e).backgroundColor;
-        let bord = window.getComputedStyle(e).borderColor;
+        let bordT = window.getComputedStyle(e).borderTopColor;
+        let bordR = window.getComputedStyle(e).borderRightColor;
+        let bordB = window.getComputedStyle(e).borderBottomColor;
+        let bordL = window.getComputedStyle(e).borderLeftColor;
 
         color = rgbaToHsla(color);
         back = rgbaToHsla(back);
-        bord = rgbaToHsla(bord);
+        bordT = rgbaToHsla(bordT);
+        bordR = rgbaToHsla(bordR);
+        bordB = rgbaToHsla(bordB);
+        bordL = rgbaToHsla(bordL);
 
         if (!e.originalSat) {
             e.originalSat = {
                 color: color.s,
                 back: back.s,
-                bord: bord.s,
+                bordT: bordT.s,
+                bordR: bordR.s,
+                bordB: bordB.s,
+                bordL: bordL.s,
             };
         }
 
         color.h = hue; // - 15 + Math.random() * 30;
         back.h = hue; // - 15 + Math.random() * 30;
-        bord.h = hue; // - 15 + Math.random() * 30;
+        bordT.h = hue; // - 15 + Math.random() * 30;
+        bordR.h = hue; // - 15 + Math.random() * 30;
+        bordB.h = hue; // - 15 + Math.random() * 30;
+        bordL.h = hue; // - 15 + Math.random() * 30;
 
         if (maxSaturation) {
             color.s = 100;
             back.s = 100;
-            bord.s = 100;
+            bordT.s = 100;
+            bordR.s = 100;
+            bordB.s = 100;
+            bordL.s = 100;
         } else {
-            color.s = e.originalSat.color
-            back.s = e.originalSat.back
-            bord.s = e.originalSat.bord
+            color.s = e.originalSat.color;
+            back.s = e.originalSat.back;
+            bordT.s = e.originalSat.bordT;
+            bordR.s = e.originalSat.bordR;
+            bordB.s = e.originalSat.bordB;
+            bordL.s = e.originalSat.bordL;
         }
 
         e.style.color = `hsla(${color.h}, ${color.s}%, ${color.l}%, ${color.a})`;
         e.style.backgroundColor = `hsla(${back.h}, ${back.s}%, ${back.l}%, ${back.a})`;
-        e.style.borderColor = `hsla(${bord.h}, ${bord.s}%, ${bord.l}%, ${bord.a})`;
+        e.style.borderTopColor = `hsla(${bordT.h}, ${bordT.s}%, ${bordT.l}%, ${bordT.a})`;
+        e.style.borderRightColor = `hsla(${bordR.h}, ${bordR.s}%, ${bordR.l}%, ${bordR.a})`;
+        e.style.borderBottomColor = `hsla(${bordB.h}, ${bordB.s}%, ${bordB.l}%, ${bordB.a})`;
+        e.style.borderLeftColor = `hsla(${bordL.h}, ${bordL.s}%, ${bordL.l}%, ${bordL.a})`;
         e.style.accentColor = `hsla(${hue}, 100%, 50%, 1)`;
 
     });
@@ -88,7 +109,7 @@ function rgbaToHsla(rgbaString) {
 
 
 
-
+// Copiar d'aquí cap amunt //
 // ================================================================= //
 
 // setTimeout(() => { changeHue(170); }, 0);

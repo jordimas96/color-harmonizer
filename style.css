@@ -135,6 +135,23 @@ body {
 }
 
 
+
+.boing {
+	cursor: pointer;
+
+    transform-origin: center;
+
+    transition: transform 0.1s, border-radius 0.3s, color 0.3s;
+
+    &:active {
+        transform: scale(0.9) !important;
+    }
+    &:disabled {
+		pointer-events: none;
+    }
+}
+
+
 /* Pantalla PC */
 @media only screen and (min-width: 576px) {
     
