@@ -38,7 +38,7 @@ body {
     cursor: pointer;
 }
 
-.group1, .group2 {
+.group {
     display: flex;
     flex-wrap: wrap;
 }
@@ -50,13 +50,24 @@ body {
 
     width: 100px;
     height: 100px;
+    padding: 0.8rem;
     font-size: 2rem;
     font-family: arial;
     text-align: center;
     box-sizing: border-box;
+    cursor: default;
 }
-.gray-square {
+.inline .square {
     font-size: 1.5rem;
+}
+.class .square {
+    font-size: 1.5rem;
+}
+.low-saturation .square {
+    font-size: 1rem;
+}
+.gray .square {
+    font-size: 1.4rem;
 }
 
 .div1 {
@@ -70,17 +81,17 @@ body {
 }
 
 .div3 {
-    background-color: hsl(311, 100%, 23%);
-    color: hsl(311 100 90);
+    background-color: hwb(311 0% 54%);
+    color: hsl(180 100 80);
 }
 
 .div4 {
-    background-color: hwb(43 74% 0%);
+    background-color: wheat;
     color: #0008;
 }
 
 .div5 {
-    background-color: azure;
+    background-color: rgb(200, 255, 255);
     color: hwb(0 42 58);
 }
 
@@ -108,7 +119,7 @@ body {
     display: block;
     margin: 0.5rem;
     padding: 1px 14px 3px;
-    background-color: hsl(207, 90%, 54%);
+    background-color: #5f7a14;
     color: white;
     border: none;
     border-radius: 1rem;
@@ -126,7 +137,7 @@ body {
 .codi {
     color: rgb(255, 255, 255);
     background-color: #1e1e1e;
-    border: 2px solid hsl(60, 44%, 44%);
+    border: 2px solid gold;
     width: fit-content;
     border-radius: 1.5rem;
 }
